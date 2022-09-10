@@ -1,0 +1,52 @@
+# Login
+az login
+
+# Subscription
+> az account list --output table
+> az account subscription list
+
+## change subscript
+> az account set --subscription <name or id>
+
+# Resource group
+> az group list
+> az group create --location centralus --resource-group TrackingSandbox
+
+
+# Create storage account
+> az storage account create `
+--kind StorageV2 `
+--resource-group TrackingSandbox `
+--location centralus `		(australiasoutheast)
+--name trackingsandbox		(must be lowercase and number. No, dash underscore)
+--sku Standard_LRS
+
+> az storage account list --query "[].[name, id]"
+
+# Get connection string
+> az storage account show-connection-string `
+  --resource-group TrackingSandbox `
+  --query connectionString `
+  --name trackingsandbox
+
+DefaultEndpointsProtocol=https;
+EndpointSuffix=core.windows.net;
+AccountName=trackingsandbox;
+AccountKey=QySwJoXJboX4hxb6quY7myBYmGXAefoHIqAnfv+Vv1k72n0QR86Ki6oM7YPinm+oUFYug/glIedE+AStFflxXQ==
+
+# list container
+> az storage container list --account-name trackingsandbox
+--------------------------
+REST API
+# List all blobs
+https://[url-for-service-account]/?comp=list&include=metadata
+
+----------
+.NET
+https://docs.microsoft.com/en-au/dotnet/api/overview/azure/storage
+https://docs.microsoft.com/en-us/dotnet/api/overview/azure/storage.blobs-readme
+Library: Azure.Storage.Blobs, Azure.Storage....
+BlobServiceClient for storage account
+BlobContainerClient for container
+BlobClient for blob in a container
+
