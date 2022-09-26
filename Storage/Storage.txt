@@ -1,0 +1,16 @@
+# Create resource group
+> az group create --location australiasoutheast --name az204-blob-rg
+
+# Create storage account
+> az storage account create `
+ --resource-group az204-blob-rg `
+ --name learnblog `
+ --location australiasoutheast `
+ --sku Standard_LRS
+
+# List resource group
+> az group list
+> az group show --name az204-blob-rg
+
+# Delete resource group
+> az group delete --name az204-blob-rg --no-wait
