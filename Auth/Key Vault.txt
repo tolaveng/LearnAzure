@@ -1,0 +1,9 @@
+# create key vault
+> az keyvault create --name $myKeyVault --resource-group az204-vault-rg --location $myLocation
+
+# Set key
+> az keyvault secret set --vault-name $myKeyVault --name "ExamplePassword" --value "hVFkk965BuUv"
+
+# show
+> az keyvault secret show --name "ExamplePassword" --vault-name $myKeyVault
+

@@ -1,0 +1,39 @@
+Azure Container Instance
+- container instances are billed by the second
+
+# create unique DNS
+> DNS_NAME_LABEL=aci-example-$RANDOM
+
+# create container
+> az container create --resource-group az204-aci-rg \
+    --name mycontainer \
+    --image mcr.microsoft.com/azuredocs/aci-helloworld \
+    --ports 80 \
+    --dns-name-label $DNS_NAME_LABEL --location <myLocation> \
+
+# verify is running
+> az container show --resource-group az204-aci-rg \
+    --name mycontainer \
+    --query "{FQDN:ipAddress.fqdn,ProvisioningState:provisioningState}" \
+    --out table \
+
+# restart policy
+- Always (restart when complete job), Never, OnFaiure (status sest to Terminated when complete)
+
+> az container create \
+    --resource-group myResourceGroup \
+    --name mycontainer \
+    --image mycontainerimage \
+    --restart-policy OnFailure
+# Environment variable
+> --environment-variables 'NumWords'='5' 'MinLength'='8'\
+
+# Mount external valumes
+- ACI is stateless
+- can only mount Azure file share to Linux containers that run as root and limit to CIFS support
+....
+    --azure-file-volume-account-name $ACI_PERS_STORAGE_ACCOUNT_NAME \
+    --azure-file-volume-account-key $STORAGE_KEY \
+    --azure-file-volume-share-name $ACI_PERS_SHARE_NAME \
+    --azure-file-volume-mount-path /aci/logs/
+

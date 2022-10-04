@@ -1,0 +1,15 @@
+# Create Azure container registry
+> az acr create --resource-group az204-rg --name <myContainerRegistry> --sku Basic
+
+# Buld and push
+> az acr build --image sample/hello-world:v1  --registry <myContainerRegistry> --file Dockerfile .
+
+# List repositories
+> az acr repository list --name <myContainerRegistry> --output table
+
+# List tags
+> az acr repository show-tags --name <myContainerRegistry> --repository sample/hello-world --output table
+
+# run the image in the ACR
+> az acr run --registry <myContainerRegistry> --cmd '$Registry/sample/hello-world:v1' /dev/null
+***$Registry: the registry where you run

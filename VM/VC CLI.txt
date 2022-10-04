@@ -1,0 +1,23 @@
+> az group create --name az204-rg --location australiasoutheast
+
+# create VM, password 12 to 123 long, note about publicIpAddress after created
+> az vm create `
+    --resource-group az204-rg `
+    --name az204vm `
+    --image UbuntuLTS `
+    --generate-ssh-keys `
+    --admin-username azureuser `
+    --public-ip-sku Standard
+
+# Install web server, only SSH is opened by default
+> az vm open-port --port 80 --resource-group az204-rg --name az204vm
+
+# Connect to VM
+> ssh azureuser@<publicIpAddress>
+
+# Install nginx
+> sudo apt-get -y update
+> sudo apt-get -y install ngix
+
+# Clean up
+> az group delete --name az204-rg --no-wait

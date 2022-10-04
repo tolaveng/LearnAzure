@@ -1,0 +1,59 @@
+# Template
+- Parameters: provide values, allow to use the same template in different environment
+- Variables: defined values and can be contructed from parameter
+- User-defined functions: customised function that simplify template
+- Resources: specify the resource to deploy
+- Outputs: return values from the deploy resource
+
+# Eample, 
+"resources": [
+  {
+    "type": "Microsoft.Storage/storageAccounts",
+    "apiVersion": "2019-04-01",
+    "name": "mystorageaccount",
+    "location": "westus",
+    "sku": {
+      "name": "Standard_LRS"
+    },
+    "kind": "StorageV2",
+    "properties": {}
+  }
+]
+- convert the json to REST api
+PUT
+https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/mystorageaccount?api-version=2019-04-01
+REQUEST BODY
+{
+  "location": "westus",
+  "sku": {
+    "name": "Standard_LRS"
+  },
+  "kind": "StorageV2",
+  "properties": {}
+}
+
+# Mater template (set of target) with nest templates
+- create in order, defined dependency
+- update if exists
+- additional operation like install new software
+
+# Condition deployment
+- ie. 
+	"parameters": {... "newOrExisting": {"type": "string", "defaultValue": "new", ...} },
+	"resources": [{.... "condition": "[equals(parameters('newOrExisting'), 'new')]", ...}]
+# Deploy mode
+ - Incremental (default), RM leaves unchanged resources that exist the resource group but aren't in the template
+	(*** but all properties update overwriting the values)
+ - Complete: RM deletes resources that exists in the resource group that aren't specified in the template
+
+> az deployment group create \
+  --mode Complete \
+  --name ExampleDeployment \
+  --resource-group ExampleResourceGroup \
+  --template-file storage.json
+
+# deploy template
+> az login
+> az group create --name az204-arm-rg --location australiasoutheast
+> az  deployment group create --resource-group az204-arm-rg --template-file azuredeploy.json --parameters azuredeploy.parameters.json
+> az group delete --name az204-arm-rg --no-wait
