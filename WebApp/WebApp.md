@@ -120,4 +120,13 @@
 	- can route a portion of the traffic to another slot. in Traffic %. Can check in x-ms-routing-name cookie
 	- manually route, use x-ms-routing-name query paramete,  <webappname>.azurewebsites.net/?x-ms-routing-name=self
 	- By default, new slots are given a routing rule of 0%, This is an advanced scenario where you can "hide" your staging slot from the public
+
+# Usefull commands
+	- Find app with 'imgapi*' prefix
+	> az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgapi')]"
+	- render only the name of the single app that has the imgapi* prefix
+	 az webapp list --resource-group ManagedPlatform --query "[?starts_with(name, 'imgapi')].{Name:name}" --output tsv
+	 
+	- deploy App
+	> az webapp deployment source config-zip --resource-group ManagedPlatform --src api.zip --name <name-of-your-api-app>
 	
