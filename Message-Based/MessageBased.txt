@@ -1,0 +1,17 @@
+# create service bus namespace
+/> az servicebus namespace create \
+    --resource-group az204-svcbus-rg \
+    --name $myNameSpaceName \
+    --location $myLocation
+# create queue
+/> az servicebus queue create --resource-group az204-svcbus-rg \
+    --namespace-name $myNameSpaceName \
+    --name az204-queue
+# retrive connection string
+> in Azure portal, slect service name space (az204svcbus..)
+> Shared access policies in the Settings section, select RootManageSharedAccessKey policy
+> Copy the Primary Connection String
+
+# Create Console App
+> dotnet new console
+> dotnet add package Azure.Messaging.ServiceBus
